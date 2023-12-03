@@ -10,7 +10,7 @@ class CandidatePartNumber:
 
 def main():
     if len(sys.argv) != 2:
-        raise SystemExit("script.y <input file>")
+        raise SystemExit("script.py <input file>")
 
     data: list[list[str]] = []
     with open(sys.argv[1], "r") as f:
