@@ -1,5 +1,5 @@
-import sys
 from collections import Counter
+from sys import argv
 
 
 def card_score(num: int) -> int:
@@ -37,12 +37,14 @@ def count_aux(cards: list[int], idx: int) -> int:
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], "r") as f:
+    filename = argv[1] if len(argv) > 1 else "input.txt"
+    with open(filename, "r") as f:
         data = f.read().strip().splitlines()
 
     cards = [
         [
             Counter(item for item in section.split(" ") if len(item) > 0)
+            # 'Card <id>: '
             for section in card[card.index(":") + 2 :].split(" | ")
         ]
         for card in data
