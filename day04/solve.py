@@ -1,4 +1,5 @@
 from collections import Counter
+from functools import cache
 from sys import argv
 
 
@@ -20,19 +21,19 @@ def card_winning_numbers(card: list[Counter[str]]) -> list[str]:
 
 
 def count(cards: list[int]) -> int:
+    @cache
+    def helper(idx: int) -> int:
+        total = 1
+        n = cards[idx]
+        if n == 0:
+            return total
+        for i in range(1, n + 1):
+            total += helper(idx + i)
+        return total
+
     total = 0
     for idx, _ in enumerate(cards):
-        total += count_aux(cards, idx)
-    return total
-
-
-def count_aux(cards: list[int], idx: int) -> int:
-    total = 1
-    n = cards[idx]
-    if n == 0:
-        return total
-    for i in range(1, n + 1):
-        total += count_aux(cards, idx + i)
+        total += helper(idx)
     return total
 
 
