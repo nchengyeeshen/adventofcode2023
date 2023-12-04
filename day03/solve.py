@@ -1,6 +1,7 @@
 import sys
 from functools import reduce
 from operator import mul
+from typing import Optional
 
 
 class POI:
@@ -16,10 +17,11 @@ def main():
         grid = [[c for c in line.strip()] for line in f]
 
     # Collect points of interest.
-    pois = []
-    coord_to_pois = {}
+    pois: list["POI"] = []
+    coord_to_pois: dict[tuple[int, int], "POI"] = {}
     for x, row in enumerate(grid):
-        digits, coords = [], []
+        digits: list[str] = []
+        coords: list[tuple[int, int]] = []
 
         for y, col in enumerate(row):
             if col.isdigit():
@@ -59,11 +61,11 @@ def main():
         ]
         neighbor_pois: set["POI"] = set()
         for coord in neighboring_coords:
-            other_poi = coord_to_pois.get(coord, None)
+            other_poi: Optional["POI"] = coord_to_pois.get(coord, None)
             if other_poi is None or other_poi is poi:
                 continue
             neighbor_pois.add(other_poi)
-        poi.neighbors = neighbor_pois
+        poi.neighbors = list(neighbor_pois)
 
     print(
         "Sum of part numbers:",

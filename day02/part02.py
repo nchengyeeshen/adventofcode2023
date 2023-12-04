@@ -1,21 +1,20 @@
+import sys
 from functools import reduce
 from operator import mul
-import sys
+
+lookup = ["red", "blue", "green"]
 
 
-lookup = {"red": 0, "blue": 1, "green": 2}
-
-
-def game_limits(game: list[str]) -> tuple:
+def game_limits(game: list[str]) -> tuple[int, int, int]:
     limits = [0, 0, 0]
     for round in game:
         cubes = round.split(",")
         for cube in cubes:
             cube = cube.strip()
             num, color = cube.split(" ")
-            limits[lookup[color]] = max(limits[lookup[color]], int(num))
+            limits[lookup.index(color)] = max(limits[lookup.index(color)], int(num))
 
-    return tuple(limits)
+    return limits[0], limits[1], limits[2]
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@ if __name__ == "__main__":
 
     calibration_sum = 0
     for line in contents:
-        digits = []
+        digits: list[str] = []
         for char in line:
             if char.isdigit():
                 digits.append(char)

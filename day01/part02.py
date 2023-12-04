@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     calibration_sum = 0
     for line in contents:
-        digits = []
+        digits: list[str] = []
         for i in range(len(line)):
             try:
                 digits.append(match(line, i))
