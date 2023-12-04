@@ -2,14 +2,13 @@ import sys
 from collections import Counter
 
 
-def card_score(winning_numbers):
-    n = len(winning_numbers)
-    if n == 0:
+def card_score(num: int) -> int:
+    if num == 0:
         return 0
-    return 2 ** (n - 1)
+    return 2 ** (num - 1)
 
 
-def card_winning_numbers(card):
+def card_winning_numbers(card: list[Counter[str]]) -> list[str]:
     winning_numbers, have_numbers = card[0], card[1]
     return [
         num
@@ -20,16 +19,16 @@ def card_winning_numbers(card):
     ]
 
 
-def count(cards):
+def count(cards: list[int]) -> int:
     total = 0
     for idx, _ in enumerate(cards):
         total += count_aux(cards, idx)
     return total
 
 
-def count_aux(cards, idx):
+def count_aux(cards: list[int], idx: int) -> int:
     total = 1
-    n = len(cards[idx])
+    n = cards[idx]
     if n == 0:
         return total
     for i in range(1, n + 1):
@@ -49,7 +48,7 @@ if __name__ == "__main__":
         for card in data
     ]
 
-    cards = [card_winning_numbers(card) for card in cards]
+    cards = [len(card_winning_numbers(card)) for card in cards]
 
     # Part 1
     print("Total points:", sum(card_score(card) for card in cards))
