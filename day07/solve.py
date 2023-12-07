@@ -1,5 +1,5 @@
-from collections import Counter
 import sys
+from collections import Counter, defaultdict
 
 card_strengths = [
     "2",
@@ -79,49 +79,48 @@ def hand_type(hand):
 
 
 def hand_type_two(hand):
-    cards = Counter(hand)
-    num_wildcards = cards.get("J", 0)
+    cards = defaultdict(int)
+
+    num_jokers = 0
+    max_card, max_count = None, 0
+    for card in hand:
+        if card == "J":
+            num_jokers += 1
+            continue
+        count = cards[card] + 1
+        cards[card] = count
+        if count > max_count:
+            max_card = card
+            max_count = count
+
+    cards[max_card] += num_jokers
+
     match len(cards):
         case 1:
             return "five_of_a_kind"
         case 2:
             match Counter(cards.values()):
                 case {4: 1, 1: 1}:
-                    if num_wildcards in [1, 4]:
-                        return "five_of_a_kind"
                     return "four_of_a_kind"
                 case {3: 1, 2: 1}:
-                    if num_wildcards in [2, 3]:
-                        return "five_of_a_kind"
                     return "full_house"
                 case _:
                     raise RuntimeError(f"Unknown hand type: {hand}")
         case 3:
             match Counter(cards.values()):
                 case {3: 1, 1: 2}:
-                    if num_wildcards in [1, 3]:
-                        return "four_of_a_kind"
                     return "three_of_a_kind"
                 case {2: 2, 1: 1}:
-                    match num_wildcards:
-                        case 2:
-                            return "four_of_a_kind"
-                        case 1:
-                            return "full_house"
                     return "two_pair"
                 case _:
                     raise RuntimeError(f"Unknown hand type: {hand}")
         case 4:
             match Counter(cards.values()):
                 case {2: 1}:
-                    if num_wildcards in [1, 2]:
-                        return "three_of_a_kind"
                     return "one_pair"
                 case _:
                     raise RuntimeError(f"Unknown hand type: {hand}")
         case 5:
-            if num_wildcards == 1:
-                return "one_pair"
             return "high_card"
         case _:
             raise RuntimeError(f"Unknown hand type: {hand}")
