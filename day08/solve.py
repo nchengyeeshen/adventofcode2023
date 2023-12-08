@@ -29,15 +29,11 @@ def part_two(steps, nodes):
         count = 0
         step_i = 0
 
-        first_z = None
         stack = [starting_node]
-        while True:
+        while len(stack) > 0:
             node = stack.pop()
 
-            if node.endswith("Z") and first_z is None:
-                first_z = node
-                count = 0
-            elif node == first_z:
+            if node.endswith("Z"):
                 counts.append(count)
                 break
 
