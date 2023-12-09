@@ -1,4 +1,3 @@
-from functools import reduce
 from sys import argv
 
 
@@ -10,7 +9,7 @@ def extrapolate(values: list[int]) -> int:
             break
         differences = [seq[i] - seq[i - 1] for i in range(1, len(seq))]
         sequences.append(differences)
-    return reduce(lambda acc, x: acc + x[-1], reversed(sequences[:-1]), 0)
+    return sum(x[-1] for x in reversed(sequences))
 
 
 def part_one(values: list[list[int]]) -> int:
