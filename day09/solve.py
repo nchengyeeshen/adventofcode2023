@@ -25,3 +25,5 @@ if __name__ == "__main__":
 
     values = [[int(v) for v in line.split()] for line in contents.splitlines()]
     print("Part 1:", sum(extrapolate(v) for v in values))
+
+    print("Part 2:", sum(extrapolate(list(reversed(v))) for v in values))
